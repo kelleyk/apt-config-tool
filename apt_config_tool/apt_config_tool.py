@@ -89,7 +89,7 @@ def cmd_preprocess(args):
     proxy = get_apt_proxy()
 
     with open(args.input_file, 'r') as f:
-        data = f.read(yaml.load(raw_data))
+        data = f.read(yaml.load(f.read()))
 
     output = [
         '#!/usr/bin/env bash',
