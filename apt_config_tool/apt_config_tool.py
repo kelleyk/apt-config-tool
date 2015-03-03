@@ -1,5 +1,8 @@
 #!/usr/bin/env python2.7
 # -*- mode: python; encoding: utf-8; -*-
+from __future__ import division, absolute_import, unicode_literals, print_function
+from future_builtins import *
+
 """apt-config-tool: Set up apt and install packages as part of a scripted provisioning process (such as building a Dockerfile).
 
 (c) 2014-2015 Kevin Kelley <kelleyk@kelleyk.net>.  All rights reserved.
