@@ -159,7 +159,9 @@ def install_key(key_spec):
         return ('wget -qO - {} | apt-key add -'.format(shell_quote(key_spec['url'])),)
 
     elif 'keyid' in key_spec:
-        raise NotImplementedError()
+        keyserver = key_spec.get('keyserver', 'hkp://keyserver.ubuntu.com:80')
+        keyid = key_spec['keyid']
+        return ('apt-key adv --keyserver {} --recv {}'.format(shell_quote(keyserver), shell_quote(keyid)),)
 
     else:
         raise Exception('Not sure what to do with key description: {}'.format(key_spec))
