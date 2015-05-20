@@ -11,9 +11,6 @@ It comes with no warranty express or implied.  If it breaks, you get to keep bot
 
 """
 
-# TODOs:
-#  - implement keyserver support
-
 import os
 import os.path
 import re
@@ -28,6 +25,8 @@ from pipes import quote as shell_quote  # shlex.quote in Py3
 import yaml
 from intensional import Re
 
+from .apt_proxy_utils import get_apt_proxy
+
 
 log = logging.getLogger('apt-config-tool')
 
@@ -41,7 +40,7 @@ def build_parser():
     p_preprocess = p
     p_preprocess.add_argument('input_file', metavar='apt-config.yaml')
     p_preprocess.add_argument('output_file', metavar='apt-config.sh', nargs='?')
-    #p_preprocess.add_argument('--apt-proxy', metavar='proxy url', nargs='?', default=True)  # TODO: Should have a flag to set/disable this.
+    # p_preprocess.add_argument('--apt-proxy', metavar='proxy url', nargs='?', default=True)  # TODO: Should have a flag to set/disable this.
     p_preprocess.set_defaults(func=cmd_preprocess)
 
     # p_run = sp.add_parser('run')
@@ -49,39 +48,6 @@ def build_parser():
     # p_run.set_defaults(func=cmd_run)
 
     return p
-
-
-def parse_apt_config(dump):
-    for line in dump.splitlines():
-        if line not in Re(r'^([^ ]+) "(.*)";$'):
-            raise AssertionError('Horrible parsing code has horribly failed!')
-        yield (Re._[1], Re._[2])
-
-
-def get_apt_config():
-    return dict(parse_apt_config(subprocess.check_output(('apt-config', 'dump'))))
-
-
-def get_apt_proxy():
-    config = get_apt_config()
-
-    proxy = config.get('Acquire::http::Proxy')
-    if proxy:
-        log.debug('Using host\'s apt proxy: {}'.format(proxy))
-        return proxy
-
-    # You can install squid-deb-proxy-client, which supplies a tiny little script that asks avahi
-    # for any zeroconf-advertised apt proxies.
-    proxy_autodetect = config.get('Acquire::http::ProxyAutoDetect')
-    if proxy_autodetect:
-        log.debug('Using host\'s apt proxy autodetection script: {}'.format(proxy_autodetect))
-        proxy = subprocess.check_output((proxy_autodetect,)).strip()
-    if proxy:
-        log.debug('Autodetected apt proxy: {}'.format(proxy))
-        return proxy
-
-    log.debug('Couldn\'t find an apt proxy.')
-    return None
 
 
 def cmd_preprocess(args):
@@ -185,7 +151,7 @@ def main():
     if args.verbose:
         logging.basicConfig(level=logging.DEBUG, stream=sys.stderr)
         logging.debug('herro')
-        #log.setLevel(logging.DEBUG)
+        # log.setLevel(logging.DEBUG)
     return args.func(args)
 
 
