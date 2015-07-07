@@ -73,6 +73,15 @@ def cmd_preprocess(args):
     output.append('apt-get update')  # Must update first; otherwise, there are no package lists.
     output.extend(apt_install(('wget',)))
 
+    for wkk_name, wkk_spec in (data.get('well_known_keys') or {}).items():
+        if not wkk_spec:
+            continue
+        if wkk_name == 'debian-archive-keyring':
+            output.extend(apt_install(('debian-archive-keyring',)))
+            output.append('cp -a /usr/share/keyrings/debian-archive-keyring.gpg /etc/apt/trusted.gpg.d/')
+        else:
+            raise ValueError('Unrecognized well-known key name: {}'.format(wkk_name))
+    
     for key_spec in data.get('keys') or ():
         output.extend(install_key(key_spec))
     for source_name, source_spec in (data.get('sources') or {}).items():
@@ -150,8 +159,6 @@ def main():
     args = build_parser().parse_args()
     if args.verbose:
         logging.basicConfig(level=logging.DEBUG, stream=sys.stderr)
-        logging.debug('herro')
-        # log.setLevel(logging.DEBUG)
     return args.func(args)
 
 
