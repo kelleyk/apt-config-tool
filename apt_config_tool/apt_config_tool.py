@@ -143,11 +143,11 @@ def install_key(key_spec):
 
 
 def install_source(source_name, source_spec):
-    for key_spec in source_spec['keys']:
+    for key_spec in source_spec.get('keys') or ():
         for line in install_key(key_spec):
             yield line
 
-    for line in source_spec['sources']:
+    for line in source_spec.get('sources') or ():
         yield 'echo {} >> /etc/apt/sources.list.d/{}.list'.format(shell_quote(line), source_name)
 
 
