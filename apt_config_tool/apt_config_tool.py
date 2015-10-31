@@ -93,6 +93,8 @@ def cmd_preprocess(args):
 
     output.extend(apt_install(data.get('packages') or ()))
 
+    output.extend(dpkg_install(data.get('binary_packages') or ()))
+    
     output.extend((
         'apt-get autoremove -y',
         'apt-get clean',
@@ -119,8 +121,19 @@ def cmd_preprocess(args):
 
 
 def apt_install(packages):
+    if not packages:
+        return ()
     return ('apt-get install -yq --no-install-recommends ' + ' '.join(packages),)
 
+
+# N.B.: This winds up in a shell script, so globs and similar are perfectly fine!
+def dpkg_install(pathlikes):
+    if not pathlikes:
+        # return ('# No binary_packages to install!',)
+        return ()
+    # TODO: What options or env vars will make this quiet/unattended?
+    return ('dpkg -i ' + ' '.join(pathlikes),)
+        
 
 # def cmd_run(args):
 #     with open(args.config_file, 'r') as f:

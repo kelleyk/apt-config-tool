@@ -12,6 +12,7 @@ It comes with no warranty express or implied.  If it breaks, you get to keep bot
   - add PPAs
   - automatically detect and use the host's apt proxy, if any (including one detected via zeroconf/avahi)
   - remove cached packages, indices, and other things that are unnecessary unless you intend to install more packages
+  - install binary packages (.deb/.ddeb) before cleaning up apt (see the 'binary_packages' key)
 
 ## It works by
 
