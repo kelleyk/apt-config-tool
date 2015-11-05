@@ -1,0 +1,17 @@
+keys:
+  # Keys not associated with a particular source could be listed here.
+  # Keys are specified in one of the following ways:
+  # {url: "http://example.com/key.gpg"}
+  # {keyid: "...", keyserver: "..."}  # if keyserver is not specified, ubuntu is used by default
+  # TODO: add option for raw key data?
+sources:
+  # This will produce /etc/apt.conf/sources.list.d/elasticsearch.list.
+  elasticsearch:
+    keys:
+      - url: http://packages.elasticsearch.org/GPG-KEY-elasticsearch
+    sources:
+      - "deb http://packages.elasticsearch.org/elasticsearch/1.4/debian stable main"
+      - "deb http://packages.elasticsearch.org/logstash/1.4/debian stable main"
+packages:
+  - elasticsearch
+  - openjdk-7-jre-headless

@@ -1,0 +1,5 @@
+ppas:
+  - nginx/stable
+packages:
+  - nginx
+  - nginx-extras

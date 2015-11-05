@@ -1,0 +1,13 @@
+packages:
+  # Requirements for our binary_packages.
+  - libltdl7 libodbc1 unixodbc libperl5.18 libslp1
+
+  # Required only if using MIT Kerberos via GSSAPI via SASL.
+  - sasl2-bin libsasl2-2 libsasl2-modules libsasl2-modules-gssapi-mit
+  
+binary_packages:
+  - /tmp/packages/libldap-2.4-2_*.deb
+  - /tmp/packages/libldap2-dev_*.deb
+  - /tmp/packages/slapd_*.deb
+  - /tmp/packages/ldap-utils_*.deb
+  

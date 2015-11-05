@@ -1,0 +1,22 @@
+keys:
+  # Keys not associated with a particular source could be listed here.
+  # Keys are specified in one of the following ways:
+  # {url: "http://example.com/key.gpg"}
+  # {keyid: "...", keyserver: "..."}  # if keyserver is not specified, ubuntu is used by default
+  # TODO: add option for raw key data?
+sources:
+  unifi:
+    keys:
+      - keyid: C0A52C50
+    sources:
+      - "deb http://www.ubnt.com/downloads/unifi/debian stable ubiquiti"
+  mongodb:
+    keys:
+      - keyid: 7F0CEB10
+    sources:
+      - "deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen"
+packages:
+  # three channels: unifi-beta, unifi-rapid, unifi (stable)
+  # but with HUGE differences in version and functionality, it seems (v4, v3, v2)
+  - unifi-beta
+  - openjdk-7-jre-headless

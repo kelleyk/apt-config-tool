@@ -1,0 +1,9 @@
+sources:
+  aptly:
+    keys:
+      - keyid: E083A3782A194991
+        keyserver: keys.gnupg.net
+    sources:
+      - "deb http://repo.aptly.info/ squeeze main"
+packages:
+  - aptly
