@@ -20,7 +20,12 @@ def parse_apt_config(dump):
 
 
 def get_apt_config():
-    return dict(parse_apt_config(subprocess.check_output(('apt-config', 'dump'))))
+    try:
+        return dict(parse_apt_config(subprocess.check_output(('apt-config', 'dump'))))
+    except OSError as exc:
+        if exc.errno == 2:
+            return {}
+        raise
 
 
 def get_apt_proxy():
