@@ -12,7 +12,7 @@ setup(
     url='http://github.com/kelleyk/apt-config-tool',
     packages=['apt_config_tool'],
     install_requires=[
-        'pyyaml',
+        'pyyaml<6.0',  # 6.0 drops support for Python 2.x
         'intensional',
         ],
     entry_points=dict(
